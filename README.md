@@ -1,57 +1,53 @@
 # RES
 
-RES is a minimalist pixel game engine written in Haxe. 
+RES is a minimalist pixel game engine written in [Haxe] where you can controll every pixel diplayed on the screen.
 
-RES is a game engine where you actually control every pixel that is displayed on the screen.
+## Motivation
 
-Thanks to Haxe RES is super portable and can run on a huge number of platforms, including (but not limited to):
-
-- Windows/Linux/MacOS
-- Browser (HTML5)
-- Mobile (Android/iOS)
-
-## Table of Contents
-
-- [RES](#res)
-  - [Table of Contents](#table-of-contents)
-  - [Talk is cheap. Show me the code.](#talk-is-cheap-show-me-the-code)
-  - [Getting the Engine](#getting-the-engine)
-    - [Installation](#installation)
+TBD
 
 ## Talk is cheap. Show me the code.
 
 The simplest program using RES would look like this:
 
+**Main.hx**:
 ```haxe
-// Main.hx
 import res.RES;
 import res.bios.html5.BIOS;
 import res.display.FrameBuffer;
 import res.rom.Rom;
 
 function main() {
-	RES.boot(new BIOS(), {
-		resolution: PIXELS(256, 240),
-		rom: Rom.embed('rom'),
-		main: (res) -> {
-			return {
-				update: (timeDelta:Float) -> {},
-				render: (frameBuffer:FrameBuffer) -> {
-					frameBuffer.clear(res.rom.palette.darkest);
-					frameBuffer.set(128, 120, res.rom.palette.brightest);
-				}
-			}
-		}
-	});
-}
+  RES.boot(new BIOS(), {
+    resolution: PIXELS(256, 240),
+    rom: Rom.embed('rom'),
+    main: (res) -> {
+      final font = res.defaultFont;
 
+      return {
+        update: (dt:Float) -> {
+          // Update your game state here
+        },
+        render: (fb:FrameBuffer) -> {
+          // Render your game here
+          fb.clear(res.rom.palette.darkest);
+          font.drawPivot(fb, 'Hello world!', 128, 120);
+        }
+      }
+    }
+  });
+}
 ```
 
-Assuming the Haxe compiler and the `res` and `res-html5` libraries are installed (more on this in the [Installation](#installation) section, this program can be compiled to JavaScript with the following command:
+Assuming the Haxe compiler and the `res` and `res-html5` libraries are installed (more on this in the [Installation](#installation) section), this program can be compiled to JavaScript with the following command:
 
 ```bash
 haxe -main Main -lib res -lib res-html5 --js main.js
 ```
+
+Adding the resulting `main.js` file to an empty HTML page will result in the following:
+
+<img src="./doc/imgs/html5-simple-run.png" width="50%" height="50%" />
 
 ## Getting the Engine
 
@@ -60,3 +56,9 @@ TBD
 ### Installation
 
 TBD
+
+### License
+
+[MIT](./LICENSE)
+
+[Haxe]: https://haxe.org/
